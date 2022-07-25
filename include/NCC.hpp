@@ -16,6 +16,8 @@
 #include <opencv2/core/utility.hpp> // Include basic CV utilities
 #include <opencv2/core/types_c.h> // Include special CV structure
 #include <opencv2/highgui.hpp> // Include basic CV GUI
+// Utils
+#include <range.hpp> // Range operator (similar to python)
 
 // Normalized Cross Correlation (NCC) for angular error correction
 std::vector<float> NCC(cv::Mat RefImg, cv::Mat CurImg, float TemplateProportion, float VerticalCutOff){
