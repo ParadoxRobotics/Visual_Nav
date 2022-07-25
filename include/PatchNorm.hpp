@@ -24,8 +24,10 @@ void PatchNorm(cv::Mat& Img, std::vector<int> PatchSize, std::vector<int> Paddin
     std::wcout << "Image Error" << std::endl;
     return EXIT_FAILURE;
   }
+  // change the type of the image CV_8UC1 -> CV_32FC1
+  Img.convertTo(Img, 	CV_32FC1);
   // Patch mean and std dev
-  cv::Mat mean, stddev;
+  cv::Scalar mean, stddev;
   // Get the image size
   int H = Img.rows;
   int W = Img.cols;
@@ -35,9 +37,12 @@ void PatchNorm(cv::Mat& Img, std::vector<int> PatchSize, std::vector<int> Paddin
   // perform local normalization P = P-Mean(P)/std(P)
   for (int y = 0; y < row; y++){
     for (int x = 0; x < col; x++){
-      cv::Rect patch(x*PatchSize[1]-Padding[1], y*PatchSize[0]-Padding[0], PatchSize[1]+2*Padding[1], PatchSize[0]+2*Padding[0]);
-      cv::meanStdDev(Img[patch], mean, stddev);
-      Img[patch] = (Img[patch] - mean) / stddev;
+      // Get the patch
+      cv::Rect patchROI(x*PatchSize[1]-Padding[1], y*PatchSize[0]-Padding[0], PatchSize[1]+2*Padding[1], PatchSize[0]+2*Padding[0]);
+      cv::Mat patch = Img(patchROI)
+      // Normalize it
+      cv::meanStdDev(patch, mean, stddev);
+      patch = (patch - mean[0]) / stddev[0];
     }
   }
 }
