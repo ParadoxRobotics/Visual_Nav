@@ -47,7 +47,7 @@ void PatchDCN(cv::Mat Img, cv::Mat& out, std::vector<int> PatchSize, std::vector
       // Normalize it
       cv::Scalar mean, stddev;
       cv::meanStdDev(smoothPatch, mean, stddev);
-      cv::Mat tmpPatch = (patch - mean[0]) / (1 + eps*(stddev[0]+1e-5));
+      cv::Mat tmpPatch = (patch - mean[0]) / (1 + eps*(stddev[0]+1e-8));
       tmpPatch.copyTo(out);
     }
   }
