@@ -18,7 +18,7 @@
 #include <opencv2/highgui.hpp> // Include basic CV GUI
 
 // Patch normalization function
-void PatchNorm(cv::Mat& Img, std::vector<int> PatchSize, std::vector<int> Padding){
+void PatchNorm(cv::Mat Img, cv::Mat& out, std::vector<int> PatchSize, std::vector<int> Padding){
   // Check if the image is valid
   if (!Img.data || Img.empty()){
     std::wcout << "Image Error" << std::endl;
@@ -26,8 +26,10 @@ void PatchNorm(cv::Mat& Img, std::vector<int> PatchSize, std::vector<int> Paddin
   }
   // change the type of the image CV_8UC1 -> CV_32FC1
   Img.convertTo(Img, CV_32FC1);
+  // get full image ROI
+  cv::Rect fullROI(0, 0, Img.cols, Img.cols);
   // Patch mean and std dev
-  cv::Scalar mean, stddev;
+
   // Get the image size
   int H = Img.rows;
   int W = Img.cols;
@@ -39,10 +41,13 @@ void PatchNorm(cv::Mat& Img, std::vector<int> PatchSize, std::vector<int> Paddin
     for (int x = 0; x < col; x++){
       // Get the patch
       cv::Rect patchROI(x*PatchSize[1]-Padding[1], y*PatchSize[0]-Padding[0], PatchSize[1]+2*Padding[1], PatchSize[0]+2*Padding[0]);
+      patchROI = patchROI & fullROI;
       cv::Mat patch = Img(patchROI)
       // Normalize it
+      cv::Scalar mean, stddev;
       cv::meanStdDev(patch, mean, stddev);
-      patch = (patch - mean[0]) / stddev[0];
+      cv::Mat tmpPatch = (patch - mean[0]) / (stddev[0]+1e-5);
+      tmpPatch.copyTo(out)
     }
   }
 }
