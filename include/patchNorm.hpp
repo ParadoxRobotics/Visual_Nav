@@ -42,12 +42,12 @@ void PatchNorm(cv::Mat Img, cv::Mat& out, std::vector<int> PatchSize, std::vecto
       // Get the patch
       cv::Rect patchROI(x*PatchSize[1]-Padding[1], y*PatchSize[0]-Padding[0], PatchSize[1]+2*Padding[1], PatchSize[0]+2*Padding[0]);
       patchROI = patchROI & fullROI;
-      cv::Mat patch = Img(patchROI)
+      cv::Mat patch = Img(patchROI);
       // Normalize it
       cv::Scalar mean, stddev;
       cv::meanStdDev(patch, mean, stddev);
       cv::Mat tmpPatch = (patch - mean[0]) / (stddev[0]+1e-5);
-      tmpPatch.copyTo(out)
+      tmpPatch.copyTo(out);
     }
   }
 }
