@@ -25,7 +25,7 @@ void PatchNorm(cv::Mat& Img, std::vector<int> PatchSize, std::vector<int> Paddin
     return EXIT_FAILURE;
   }
   // change the type of the image CV_8UC1 -> CV_32FC1
-  Img.convertTo(Img, 	CV_32FC1);
+  Img.convertTo(Img, CV_32FC1);
   // Patch mean and std dev
   cv::Scalar mean, stddev;
   // Get the image size
