@@ -28,8 +28,6 @@ void PatchNorm(cv::Mat Img, cv::Mat& out, std::vector<int> PatchSize, std::vecto
   Img.convertTo(Img, CV_32FC1);
   // get full image ROI
   cv::Rect fullROI(0, 0, Img.cols, Img.cols);
-  // Patch mean and std dev
-
   // Get the image size
   int H = Img.rows;
   int W = Img.cols;
