@@ -32,7 +32,7 @@ cv::Mat Fisheye2Pano(cv::Mat Img, int RH, int RW){
   // Create empty panoramic image
   cv::Mat pano;
   pano.create(Hp, Wp, Img.type());
-  // create panoramic image by projecting polar coordiante to cartesian
+  // create panoramic image by projecting polar coordinate to cartesian
   for (int i = 0; i < pano.cols; i++){
     for (int j = 0; j < pano.rows; j++){
         // polar to cartesian
